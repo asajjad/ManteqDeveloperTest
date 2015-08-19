@@ -1,14 +1,16 @@
 using System;
+using NServiceBus;
+
 namespace ManteqCodeTest.Core
 {
-    public class Command : Message
+    public class Command : IMessage
     {
-    }
 
+    }
     public class CreateMedicalProcedureApprovalRequest : Command
     {
-        public readonly Guid Id;
-        public readonly int OriginalVersion;
+        public Guid Id;
+        public int OriginalVersion;
         public string PatientId;
         public string PatientName;
         public DateTime? DateOfBirth;
@@ -26,8 +28,8 @@ namespace ManteqCodeTest.Core
 
     public class UpdateMedicalProcedureApprovalRequest : Command
     {
-        public readonly Guid Id;
-        public readonly string PatientName;
+        public Guid Id;
+        public string PatientName;
 
         public UpdateMedicalProcedureApprovalRequest(Guid id, string patientName)
         {

@@ -2,3 +2,11 @@ F:\Manteq LLC\ManteqCodeTest\ManteqCodeTest.Core\bin\Debug\ManteqCodeTest.Core.d
 F:\Manteq LLC\ManteqCodeTest\ManteqCodeTest.Core\bin\Debug\ManteqCodeTest.Core.pdb
 F:\Manteq LLC\ManteqCodeTest\ManteqCodeTest.Core\obj\Debug\ManteqCodeTest.Core.dll
 F:\Manteq LLC\ManteqCodeTest\ManteqCodeTest.Core\obj\Debug\ManteqCodeTest.Core.pdb
+F:\Manteq LLC\Code\ManteqDeveloperTest\ManteqCodeTest.Core\obj\Debug\ManteqCodeTest.Core.csprojResolveAssemblyReference.cache
+F:\Manteq LLC\Code\ManteqDeveloperTest\ManteqCodeTest.Core\obj\Debug\ManteqCodeTest.Core.dll
+F:\Manteq LLC\Code\ManteqDeveloperTest\ManteqCodeTest.Core\obj\Debug\ManteqCodeTest.Core.pdb
+F:\Manteq LLC\Code\ManteqDeveloperTest\ManteqCodeTest.Core\bin\Debug\ManteqCodeTest.Core.dll
+F:\Manteq LLC\Code\ManteqDeveloperTest\ManteqCodeTest.Core\bin\Debug\ManteqCodeTest.Core.pdb
+F:\Manteq LLC\Code\ManteqDeveloperTest\ManteqCodeTest.Core\bin\Debug\NServiceBus.Core.dll
+F:\Manteq LLC\Code\ManteqDeveloperTest\ManteqCodeTest.Core\bin\Debug\NServiceBus.Core.pdb
+F:\Manteq LLC\Code\ManteqDeveloperTest\ManteqCodeTest.Core\bin\Debug\NServiceBus.Core.xml

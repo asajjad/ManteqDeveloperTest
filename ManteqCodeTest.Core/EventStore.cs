@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using NServiceBus;
 
 namespace ManteqCodeTest.Core
 {
@@ -12,8 +13,8 @@ namespace ManteqCodeTest.Core
 
     public class EventStore : IEventStore
     {
-        private readonly IEventPublisher _publisher;
-
+        //private readonly IEventPublisher _publisher;
+        private readonly IBus _bus;
         private struct EventDescriptor
         {
 
@@ -29,9 +30,9 @@ namespace ManteqCodeTest.Core
             }
         }
 
-        public EventStore(IEventPublisher publisher)
+        public EventStore(IBus bus)
         {
-            _publisher = publisher;
+            _bus = bus;
         }
 
         private readonly Dictionary<Guid, List<EventDescriptor>> _current = new Dictionary<Guid, List<EventDescriptor>>();
@@ -65,7 +66,7 @@ namespace ManteqCodeTest.Core
                 eventDescriptors.Add(new EventDescriptor(aggregateId,@event,i));
 
                 // publish current event to the bus for further processing by subscribers
-                _publisher.Publish(@event);
+                _bus.Publish(@event);
             }
         }
 
