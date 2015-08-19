@@ -1,0 +1,4 @@
+F:\Manteq LLC\ManteqCodeTest\ManteqCodeTest.Core\bin\Debug\ManteqCodeTest.Core.dll
+F:\Manteq LLC\ManteqCodeTest\ManteqCodeTest.Core\bin\Debug\ManteqCodeTest.Core.pdb
+F:\Manteq LLC\ManteqCodeTest\ManteqCodeTest.Core\obj\Debug\ManteqCodeTest.Core.dll
+F:\Manteq LLC\ManteqCodeTest\ManteqCodeTest.Core\obj\Debug\ManteqCodeTest.Core.pdb
