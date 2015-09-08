@@ -10,16 +10,15 @@ namespace ManteqCodeTest.Core
         }
         public MedicalApprovalProcedure(Guid id, string patientId, string patientName, DateTime? dateOfBirth)
         {
+            _id = id;
             ApplyChange(new ApprovalCreated(id, patientId, patientName, dateOfBirth));
         }
-
         private Guid _id;
 
         public override Guid Id
         {
             get { return _id; }
         }
-
 
     }
 

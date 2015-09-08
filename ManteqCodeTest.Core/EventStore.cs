@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using ManteqCodeTest.Core.Domain;
 using NServiceBus;
+using Newtonsoft.Json;
 
 namespace ManteqCodeTest.Core
 {
@@ -43,14 +46,14 @@ namespace ManteqCodeTest.Core
 
             // try to get event descriptors list for given aggregate id
             // otherwise -> create empty dictionary
-            if(!_current.TryGetValue(aggregateId, out eventDescriptors))
+            if (!_current.TryGetValue(aggregateId, out eventDescriptors))
             {
                 eventDescriptors = new List<EventDescriptor>();
-                _current.Add(aggregateId,eventDescriptors);
+                _current.Add(aggregateId, eventDescriptors);
             }
             // check whether latest event version matches current aggregate version
             // otherwise -> throw exception
-            else if(eventDescriptors[eventDescriptors.Count - 1].Version != expectedVersion && expectedVersion != -1)
+            else if (eventDescriptors[eventDescriptors.Count - 1].Version != expectedVersion && expectedVersion != -1)
             {
                 throw new ConcurrencyException();
             }
@@ -63,8 +66,17 @@ namespace ManteqCodeTest.Core
                 @event.Version = i;
 
                 // push event to the event descriptors list for current aggregate
-                eventDescriptors.Add(new EventDescriptor(aggregateId,@event,i));
-
+                eventDescriptors.Add(new EventDescriptor(aggregateId, @event, i));
+                //save event to database
+                using (var dataStoreContext = new SqlDataStoreContext())
+                {
+                    var manteqEvent = new ManteqEvent();
+                    manteqEvent.AggregateId = aggregateId;
+                    manteqEvent.Version = @event.Version;
+                    manteqEvent.Data = SerializeObject(@event);
+                    dataStoreContext.ManteqEvents.Add(manteqEvent);
+                    dataStoreContext.SaveChanges();
+                }
                 // publish current event to the bus for further processing by subscribers
                 _bus.Publish(@event);
             }
@@ -72,7 +84,7 @@ namespace ManteqCodeTest.Core
 
         // collect all processed events for given aggregate and return them as a list
         // used to build up an aggregate from its history (Domain.LoadsFromHistory)
-        public  List<Event> GetEventsForAggregate(Guid aggregateId)
+        public List<Event> GetEventsForAggregate(Guid aggregateId)
         {
             List<EventDescriptor> eventDescriptors;
 
@@ -83,6 +95,14 @@ namespace ManteqCodeTest.Core
 
             return eventDescriptors.Select(desc => desc.EventData).ToList();
         }
+
+        private byte[] SerializeObject(object obj)
+        {
+            var jsonObj = JsonConvert.SerializeObject(obj);
+            var data = Encoding.UTF8.GetBytes(jsonObj);
+            return data;
+        }
+
     }
 
     public class AggregateNotFoundException : Exception

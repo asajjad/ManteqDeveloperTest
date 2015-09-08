@@ -9,6 +9,7 @@ using Autofac;
 using Autofac.Integration.Mvc;
 using Autofac.Integration.WebApi;
 using ManteqCodeTest.App_Start;
+using ManteqCodeTest.Core;
 using NServiceBus;
 
 
@@ -16,7 +17,7 @@ namespace ManteqCodeTest
 {
     public class MvcApplication : System.Web.HttpApplication
     {
-        public static IBus bus;
+        ISendOnlyBus bus;
         protected void Application_Start()
         {
             #region SetAutofacContainer
@@ -36,9 +37,13 @@ namespace ManteqCodeTest
             // Register the Web API controllers.
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
 
-            builder.RegisterType(typeof(IHandleMessages<>));
+            // builder.RegisterType(typeof(IHandleMessages<CreateMedicalProcedureApprovalRequest>));
+            // builder.RegisterType(typeof(IHandleMessages<ApprovalCreated>));
             builder.RegisterType(typeof(ICommand));
             builder.RegisterType(typeof(IMessage));
+            builder.RegisterGeneric(typeof(Repository<>))
+                  .As(typeof(IRepository<>));
+            builder.RegisterType<EventStore>().As<IEventStore>();
 
 
             var containerBuilder = builder.Build();
@@ -46,11 +51,12 @@ namespace ManteqCodeTest
             BusConfiguration busConfiguration = new BusConfiguration();
             // ExistingLifetimeScope() ensures that IBus is added to the container as well,
             // allowing you to resolve IBus from your own components.
+            busConfiguration.EndpointName("MateqCodeTest");
             busConfiguration.UseContainer<AutofacBuilder>(c => c.ExistingLifetimeScope(containerBuilder));
             busConfiguration.UseSerialization<JsonSerializer>();
             busConfiguration.UsePersistence<InMemoryPersistence>();
-            // busConfiguration.EnableInstallers();
-            bus = Bus.Create(busConfiguration).Start();
+            busConfiguration.EnableInstallers();
+            bus = Bus.CreateSendOnly(busConfiguration);
 
             //MVC resolver
             DependencyResolver.SetResolver(new AutofacDependencyResolver(containerBuilder));

@@ -11,43 +11,21 @@ namespace ManteqCodeTest.Controllers.Api
 {
     public class ProcedureApprovalRequestController : ApiController
     {
+        private readonly IRepository<MedicalApprovalProcedure> _repository;
+        IBus _bus;
 
-        IBus bus;
-
-        public ProcedureApprovalRequestController(IBus bus)
+        public ProcedureApprovalRequestController(IBus bus, IRepository<MedicalApprovalProcedure> repository)
         {
-            this.bus = bus;
-        }
-
-
-        // GET api/<controller>
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
-
-        // GET api/<controller>/5
-        public string Get(int id)
-        {
-            return "value";
+            _repository = repository;
+            _bus = bus;
         }
 
         [Route("api/medicalprocedureapproval/request")]
         public void Post()
         {
             var createMedicalProcedureApprovalRequest = new CreateMedicalProcedureApprovalRequest(Guid.NewGuid(), 1, "1", "Henry", DateTime.UtcNow);
-            this.bus.Send(createMedicalProcedureApprovalRequest);
-            this.bus.Send(new MyMessage());
+            _bus.Send("Samples.StepByStep.Server", createMedicalProcedureApprovalRequest);
         }
 
-        // PUT api/<controller>/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/<controller>/5
-        public void Delete(int id)
-        {
-        }
     }
 }

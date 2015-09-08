@@ -7,10 +7,7 @@ using NServiceBus;
 
 namespace ManteqCodeTest.Core
 {
-    public class CustomerCreatedHandler : IHandleMessages<ApprovalCreated>
+    public class MyMessage : IMessage
     {
-        public void Handle(ApprovalCreated message)
-        {
-        }
     }
 }

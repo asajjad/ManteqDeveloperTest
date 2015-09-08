@@ -1,5 +1,5 @@
 
-namespace Endpoint
+namespace ManteqCodeTest
 {
     using NServiceBus;
 
@@ -20,11 +20,7 @@ namespace Endpoint
             
             //Also note that you can mix and match storages to fit you specific needs. 
             //http://docs.particular.net/nservicebus/persistence-order
-            configuration.EndpointName("MateqCodeTest");
-            configuration.UseSerialization<JsonSerializer>();
-            configuration.UsePersistence<InMemoryPersistence>();
-            configuration.EnableInstallers();
-
+            configuration.UsePersistence<PLEASE_SELECT_ONE>();
         }
     }
 }
